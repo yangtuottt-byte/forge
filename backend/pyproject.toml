@@ -1,0 +1,45 @@
+# 项目元信息: python版本门槛,依赖清单,工具配置
+[project]
+name = "forge-backend"
+version = "0.1.0"
+description = "Forge - 多智能体协作研发平台后端"
+requires-python = ">=3.10"
+
+# 运行时依赖(阶段1用到的先上,后续阶段往这里加)
+dependencies = [
+    "fastapi>=0.115.0",        # Web 框架
+    "uvicorn[standard]>=0.30.0", # ASGI 服务器(跑 FastAPI 用)
+    "pydantic>=2.9.0",          # 数据校验/序列化
+    "pydantic-settings>=2.5.0", # 配置注入(.env → 配置对象)
+    "sqlalchemy[asyncio]>=2.0.30",  # ORM(阶段3,异步版)
+    "asyncpg>=0.29.0",          # PostgreSQL 异步驱动(阶段3)
+    "alembic>=1.13.0",          # 数据库迁移(阶段3)
+    "redis>=5.0.0",             # Redis 客户端(阶段1.6)
+    "pyjwt>=2.9.0",             # JWT 签发/校验(阶段1.5)
+    "passlib[bcrypt]>=1.7.4",   # 密码哈希(阶段1.5)
+    "httpx>=0.27.0",            # 调外部 HTTP API(阶段2 调 LLM 用)
+    # 后续阶段补充:celery(阶段5)、langgraph(阶段3)、openai/anthropic SDK 等
+]
+
+# dev 组:只有写代码/测试需要的工具,不进生产环境
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6.0",         # lint + format 一体(替代 flake8+black)
+    "pytest>=8.3.0",       # 测试框架
+    "pytest-asyncio>=0.24.0",  # 异步测试支持
+]
+
+# ruff:代码规范配置
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+# E/F:常见错误,I:import 排序,W:警告,UP:py310+ 新写法,B:bugbear 坑
+select = ["E", "F", "I", "W", "UP", "B"]
+  
+# pytest 配置
+[tool.pytest.ini_options]
+asyncio_mode = "auto"   # async 测试不用手动标 @pytest.mark.asyncio
+asyncio_default_fixture_loop_scope = "function"  # 显式声明,消除 pytest-asyncio 警告
+testpaths = ["tests"]

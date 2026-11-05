@@ -104,6 +104,7 @@ chore(prod): 生产化配置
 |------|------|--------|
 | **0 初始化** | 仓库骨架、CI、Makefile、目录占位 | `chore: 初始化项目骨架` |
 | **1 后端地基** | pyproject、配置注入、PostgreSQL+Alembic、JWT+RBAC、Redis、分层架构 | `feat(core): 后端地基` 系列 |
+| **1.1 脚手架** | pyproject.toml(依赖+工具)、Makefile(一键命令)、目录骨架、CI 骨架、占位测试 | `feat(core): 后端脚手架 + CI 骨架` |
 | **2 Agent 核心** | Agent 基类、消息、单 Agent+Function Calling、规划、记忆 | `feat(agents): Agent 核心` 系列 |
 | **3 多 Agent 协作** | 角色定义、协调器、消息传递、LangGraph、Human-in-the-loop | `feat(agents): 多 Agent 协作` 系列 |
 | **4 工具生态+MCP** | 工具注册、MCP server、搜索/代码执行/文件工具、代码沙箱 | `feat(tools): 工具生态` 系列 |
