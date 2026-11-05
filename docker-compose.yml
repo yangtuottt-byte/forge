@@ -1,0 +1,26 @@
+# 多服务编排:本机开发环境一键起全套依赖
+# docker compose up -d 启动, docker compose ps 看状态, docker compose down 停止
+
+services:
+  pg:
+    image: postgres:16 # 官方PG 16轻量镜像
+    environment:
+      POSTGRES_USER: forge  # 容器内 PG 用户(对应settings.db_user)
+      POSTGRES_PASSWORD: forge  # 对应 db_password
+      POSTGRES_DB: forge  # 启动时自动建的库
+    ports:
+      - "5432:5432" # 宿主机 5432 -> 容器 5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data # 数据卷:容器删了数据还在(不挂=删容器就鞭尸)
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U forge"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+volumes:
+  pg_data:
