@@ -1,6 +1,8 @@
 # ===== 密钥文件,绝不提交 =====
 .env
 .env.*
+# 模板 .env.example 是唯一例外(配置说明书,要入库)
+!.env.example
 
 # ===== Python =====
 __pycache__/
