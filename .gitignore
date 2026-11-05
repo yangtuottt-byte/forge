@@ -1,0 +1,35 @@
+# ===== 密钥文件,绝不提交 =====
+.env
+.env.*
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+*.egg-info/
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+
+# ===== 数据/日志/缓存(生成的不提交) =====
+data/cache/
+logs/
+*.log
+
+# ===== Agent 代码执行工作区(动态生成,不提交) =====
+workspace/
+*.tmp
+
+# ===== Docker =====
+*.pid
