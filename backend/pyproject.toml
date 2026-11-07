@@ -19,6 +19,7 @@ dependencies = [
     "passlib[bcrypt]>=1.7.4",   # 密码哈希(阶段1.5)
     "httpx>=0.27.0",            # 调外部 HTTP API(阶段2 调 LLM 用)
     "email-validator>=2.0.0",
+    "openai>=1.40.0",           # LLM客户端(openai兼容接口)
     # 后续阶段补充:celery(阶段5)、langgraph(阶段3)、openai/anthropic SDK 等
 ]
 

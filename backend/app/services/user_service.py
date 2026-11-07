@@ -1,5 +1,7 @@
 """用户业务逻辑:注册、登录"""
+
 import json
+
 from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -27,7 +29,8 @@ async def login(session: AsyncSession, email: str, password: str) -> dict:
 
 async def get_user_me(session: AsyncSession, user_id: int) -> dict:
     """查询当前用户(带缓存):先查 redis,miss 查 DB 再回填缓存 key = user:{id},TTL 60s"""
-    from app.core.cache import cache_get,cache_set
+    from app.core.cache import cache_get, cache_set
+
     key = f"user:{user_id}"
     cached = await cache_get(key)
     if cached:

@@ -42,6 +42,11 @@ class Settings(BaseSettings):
     redis_host: str = "localhost"
     redis_port: int = 6379
 
+    # ---- LLM ----
+    llm_api_key: str = ""  # ⚠️ 必须填,从 .env 注入,不能写代码里
+    llm_base_url: str = "https://maas-api.cn-huabei-1.xf-yun.com/v1"
+    llm_model: str = "spark-x2.6"
+
     @property
     def database_url(self) -> str:
         """拼 SQLAlchemy async 连接串"""

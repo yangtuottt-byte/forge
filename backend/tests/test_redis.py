@@ -1,8 +1,12 @@
 """Redis 集成测试:缓存 + 分布式锁"""
+
 import asyncio
+
 import pytest
+
 from app.core.cache import acquire_lock, cache_delete, cache_get, cache_set, release_lock
 from app.core.redis import redis_client
+
 
 @pytest.fixture(autouse=True)
 async def _redis_or_skip():
