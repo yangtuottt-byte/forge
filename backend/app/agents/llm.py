@@ -19,6 +19,19 @@ client = AsyncOpenAI(
 MODEL = settings.llm_model
 
 
+def reset_client() -> None:
+    """重建全局 client(测试用:每个测试前重置,避免事件循环串线)
+
+    ⭐ 为什么不用 close():close 是永久关闭,后续请求报错"client has been closed"
+       重建 = 每个测试拿全新 client,连接池空,绑定当前 loop
+    """
+    global client
+    client = AsyncOpenAI(
+        api_key=settings.llm_api_key,
+        base_url=settings.llm_base_url,
+    )
+
+
 async def chat(
     messages: list[dict],
     tools: list[dict] | None = None,
