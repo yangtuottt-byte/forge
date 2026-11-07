@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     db_password: str = "forge"
 
     # ---- 认证 ----
-    jwt_secret: str = "dev-secret-change-me"
+    jwt_secret: str = "dev-secret-change-me-32-bytes-minimum-for-hmac-sha256"  # 生产必须改
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 24 * 60  # 1 天
 

@@ -3,6 +3,7 @@
 import pytest
 from sqlalchemy import delete
 
+from app.core.redis import redis_client
 from app.db.session import async_session, engine
 from app.models.user import User
 
@@ -15,9 +16,11 @@ async def _clean_env():
     ⚠️ 只清开发容器里的测试表,生产环境绝不能这么干
     """
     await engine.dispose()
+    await redis_client.aclose()  # ⭐ redis 连接池同样绑定事件循环,也要清
     yield
     # 测试结束:清空 users,下一个测试从干净状态开始
     async with async_session() as session:
         await session.execute(delete(User))
         await session.commit()
     await engine.dispose()
+    await redis_client.aclose()
