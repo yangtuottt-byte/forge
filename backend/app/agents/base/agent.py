@@ -5,6 +5,7 @@ Agent基类:实现Agent循环(调llm -> 看tool_calls -> 执行 -> 喂回 -> 循
 
 import json
 
+from app.agents.base.memory import Memory
 from app.agents.llm import chat
 from app.agents.tools.registry import ToolRegistry
 
@@ -16,8 +17,16 @@ class BaseAgent:
         self.registry = registry  # 工具注册表
         self.max_steps = max_steps  # 防死循环
 
-    async def run(self, messages: list[dict]) -> str:
-        """Agent 循环:直到 LLM 不再调工具,返回最终回答"""
+    async def run(self, messages: list[dict], memory: Memory | None = None) -> str:
+        """
+        Agent 循环:直到 LLM 不再调工具,返回最终回答
+        Args:
+            messages: 本轮消息(可含 user 提问)
+            memory: 短期记忆(可选),会把历史拼到 messages 前面
+        """
+
+        if memory:
+            messages = memory.get_all() + messages
 
         for _ in range(self.max_steps):
             # 1.调llm
@@ -44,6 +53,8 @@ class BaseAgent:
                     messages.append({"role": "tool", "tool_call_id": tc.id, "content": result})
                 # 5.继续循环
                 continue
+            if memory:
+                memory.add("assistant", msg.content or "")
             # 6.没 tool_calls → 最终回答
             return msg.content or ""
         # 达到 max_steps 还没结束
