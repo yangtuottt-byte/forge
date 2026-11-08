@@ -110,6 +110,12 @@ chore(prod): 生产化配置
 | **1.4 分层架构 + 首个路由** | main.py(app+lifespan)、api/v1 + schema/service/repository 四层落地、GET /api/v1/health、ASGI 测试 | `feat(core): 分层架构 + 首个路由(FastAPI app + /api/v1/health)` |
 | **1.5 认证(JWT + RBAC)** | bcrypt 密码哈希、JWT 签发/校验、登录/注册/me 路由、get_current_user + require_roles RBAC 依赖 | `feat(core): 认证(JWT + bcrypt + RBAC)` |
 | **1.6 Redis** | redis 客户端、cache-aside 缓存、/me 走缓存、SET NX EX 分布式锁 | `feat(core): Redis 缓存 + 分布式锁(阶段 1 收官)` |
+| **2 Agent 核心** | Agent 基类、消息、Function Calling、规划、记忆 | `feat(agents): Agent 核心` 系列 |
+| **2.1 LLM 客户端** | AsyncOpenAI 封装,chat/chat_stream 拆分 | `feat(agents): LLM 客户端封装(OpenAI 兼容接口)` |
+| **2.2 工具注册** | ToolRegistry + calculator(ast 白名单安全计算) | `feat(agents): 工具注册 + 分发(schema + 注册表)` |
+| **2.3 Agent 基类** | 循环:调LLM→执行工具→喂回,max_steps 防死循环 | `feat(agents): Agent 基类(循环:调LLM→执行工具→喂回)` |
+| **2.4 短期记忆** | Memory 类(只存问答不存 tool)+ Agent 集成 | `feat(agents): 短期记忆(Memory 类 + Agent 集成)` |
+| **2.5 规划 Agent** | ReAct 拆解任务,JSON 输出 | `feat(agents): 规划 Agent(ReAct 任务拆解)` |
 | **2 Agent 核心** | Agent 基类、消息、单 Agent+Function Calling、规划、记忆 | `feat(agents): Agent 核心` 系列 |
 | **3 多 Agent 协作** | 角色定义、协调器、消息传递、LangGraph、Human-in-the-loop | `feat(agents): 多 Agent 协作` 系列 |
 | **4 工具生态+MCP** | 工具注册、MCP server、搜索/代码执行/文件工具、代码沙箱 | `feat(tools): 工具生态` 系列 |
