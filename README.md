@@ -116,6 +116,10 @@ chore(prod): 生产化配置
 | **2.3 Agent 基类** | 循环:调LLM→执行工具→喂回,max_steps 防死循环 | `feat(agents): Agent 基类(循环:调LLM→执行工具→喂回)` |
 | **2.4 短期记忆** | Memory 类(只存问答不存 tool)+ Agent 集成 | `feat(agents): 短期记忆(Memory 类 + Agent 集成)` |
 | **2.5 规划 Agent** | ReAct 拆解任务,JSON 输出 | `feat(agents): 规划 Agent(ReAct 任务拆解)` |
+| **3 多 Agent 协作** | 角色定义、协调器、消息传递、LangGraph、HITL | `feat(agents): 多 Agent 协作` 系列 |
+| **3.1 角色+消息** | Planner/Researcher/Worker/Reviewer + Message 模型 | `feat(agents): 角色定义 + 消息模型(阶段 3)` |
+| **3.2 协调器** | Orchestrator 状态机:规划→研究→执行→审查→汇总 | `feat(agents): 协调器(多 Agent 协作流程)` |
+| **3.3 HITL** | approval_gate 关键节点人工审批 | `feat(agents): HITL 审批门 + 阶段 3 文档` |
 | **2 Agent 核心** | Agent 基类、消息、单 Agent+Function Calling、规划、记忆 | `feat(agents): Agent 核心` 系列 |
 | **3 多 Agent 协作** | 角色定义、协调器、消息传递、LangGraph、Human-in-the-loop | `feat(agents): 多 Agent 协作` 系列 |
 | **4 工具生态+MCP** | 工具注册、MCP server、搜索/代码执行/文件工具、代码沙箱 | `feat(tools): 工具生态` 系列 |
