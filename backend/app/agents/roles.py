@@ -7,12 +7,16 @@
 
 from app.agents.base.agent import BaseAgent
 from app.agents.planner import plan
+from app.agents.tools import default_registry
 
 
 class PlannerAgent(BaseAgent):
     """规划者:拆解任务"""
 
     name = "planner"
+
+    def __init__(self):
+        super().__init__(default_registry, max_steps=5)
 
     async def decompose(self, goal: str) -> list[str]:
         """把目标拆解成子任务列表"""
@@ -23,6 +27,9 @@ class ResearcherAgent(BaseAgent):
     """研究员:查资料"""
 
     name = "researcher"
+
+    def __init__(self):
+        super().__init__(default_registry, max_steps=5)
 
     async def research(self, task: str) -> str:
         """搜集任务相关信息"""
@@ -35,6 +42,9 @@ class WorkerAgent(BaseAgent):
 
     name = "worker"
 
+    def __init__(self):
+        super().__init__(default_registry, max_steps=10)
+
     async def execute(self, task: str) -> str:
         """完成具体任务"""
         messages = [{"role": "user", "content": task}]
@@ -46,8 +56,13 @@ class ReviewerAgent(BaseAgent):
 
     name = "reviewer"
 
+    def __init__(self):
+        super().__init__(default_registry, max_steps=5)
+
     async def review(self, content: str) -> bool:
         """审查成果:通过 True / 打回 False"""
-        messages = [{"role": "user", "content": f"审查以下成果,只回答'通过'或'不通过':\n{content}"}]
+        messages = [
+            {"role": "user", "content": f"审查以下成果,只回答'通过'或'不通过':\n{content}"}
+        ]
         answer = await self.run(messages)
         return "通过" in answer

@@ -45,6 +45,7 @@ async def plan(goal: str) -> list[str]:
         return [goal]
     try:
         data = json.loads(content[start : end + 1])
-        return data.get("tasks", [goal])
+        tasks = data.get("tasks", [])
+        return tasks if tasks else [goal]  # ⭐ tasks 为空兜底
     except json.JSONDecodeError:
         return [goal]
