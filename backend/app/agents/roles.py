@@ -61,8 +61,6 @@ class ReviewerAgent(BaseAgent):
 
     async def review(self, content: str) -> bool:
         """审查成果:通过 True / 打回 False"""
-        messages = [
-            {"role": "user", "content": f"审查以下成果,只回答'通过'或'不通过':\n{content}"}
-        ]
+        messages = [{"role": "user", "content": f"审查以下成果,只回答'通过'或'不通过':\n{content}"}]
         answer = await self.run(messages)
         return "通过" in answer

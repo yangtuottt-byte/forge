@@ -5,6 +5,7 @@
 状态机:planning → researching → executing → reviewing → done
 """
 
+from app.agents.hitl import approval_gate
 from app.agents.roles import PlannerAgent, ResearcherAgent, ReviewerAgent, WorkerAgent
 
 
@@ -17,7 +18,7 @@ class Orchestrator:
         self.worker = WorkerAgent()
         self.reviewer = ReviewerAgent()
 
-    async def run(self, goal: str) -> str:
+    async def run(self, goal: str, hitl: bool = False) -> str:
         """完整流程:规划→研究→执行→审查→汇总"""
         # 规划:拆任务
         tasks = await self.planner.decompose(goal)
@@ -31,6 +32,12 @@ class Orchestrator:
             research = await self.researcher.research(task)
             # 执行者干活
             result = await self.worker.execute(f"{task}\n\n相关资料:\n{research}")
+            # HITL:执行者完成后,人工审批
+            if hitl:
+                approved = await approval_gate(f"任务'{task}'已完成,是否继续审查?", on_approve=None)
+                if not approved:
+                    result = await self.worker.execute(f"{task}(打回重做)")
+
             # 审查员检查
             if not await self.reviewer.review(result):
                 result = await self.worker.execute(f"{task}(重新做,上次被打回)")
