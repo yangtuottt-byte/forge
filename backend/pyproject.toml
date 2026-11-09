@@ -20,6 +20,7 @@ dependencies = [
     "httpx>=0.27.0",            # 调外部 HTTP API(阶段2 调 LLM 用)
     "email-validator>=2.0.0",
     "openai>=1.40.0",           # LLM客户端(openai兼容接口)
+    "celery>=5.3.0",            # 异步任务队列
     # 后续阶段补充:celery(阶段5)、langgraph(阶段3)、openai/anthropic SDK 等
 ]
 
