@@ -65,7 +65,7 @@ forge/
 │   │   ├── sandbox/            # 代码执行沙箱(隔离)
 │   │   └── utils/
 │   └── tests/                  # 测试(unit/integration/e2e)
-├── frontend/                   # 简单前端(实时进度展示,可选)
+├── frontend/                   # 前端(React+Vite+TS:登录/提交任务/WS实时进度/结果)
 ├── workspace/                  # Agent 代码执行工作区(动态生成,不提交)
 └── data/
 ```
@@ -142,14 +142,49 @@ chore(prod): 生产化配置
 
 ---
 
-## 快速开始
+## 五、前端 MVP(本阶段实现)
 
-> 骨架搭建中,后续补充。
+React 18 + Vite 5 + TypeScript + Tailwind CSS 3 + React Query 5,覆盖「登录/注册 → 提交任务 →
+WebSocket 实时进度 → 交付结果」核心闭环;生产经 nginx 同源反代规避跨域。
+完整架构、API 对接表与 WebSocket 协议见 **`docs/frontend.md`**。
 
 ```bash
-# 克隆后
+make dev-frontend                                  # 一键起前端 dev
+# 或
+cd frontend && npm install && npm run dev          # http://localhost:5173
+```
+
+---
+
+## 快速开始
+
+### 前端
+
+```bash
+cd frontend
+npm install
+npm run dev     # dev 服务器 :5173(经后端 CORS 直连 :8000)
+npm run test    # 单元测试
+npm run lint    # 规范检查
+npm run build   # 生产构建
+```
+
+Makefile 一键命令:`make dev-frontend` / `make test-frontend` / `make lint-frontend` / `make build-frontend`。
+
+### 全栈(docker compose)
+
+```bash
 cd forge
-make dev        # 安装依赖 + 启动开发环境
-make test       # 跑测试
-make up         # docker compose 启动全部服务
+docker compose up -d --build          # 起 api + worker + pg + redis + frontend
+# 前端: http://localhost:5173(nginx 同源反代 /api 与 WS)
+docker compose logs -f frontend
+docker compose down
+```
+
+### 后端
+
+```bash
+make dev       # 后端虚拟环境 + 依赖
+make test      # 后端单元测试
+make lint      # 后端 ruff 检查
 ```
