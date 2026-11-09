@@ -2,6 +2,36 @@
 # docker compose up -d 启动, docker compose ps 看状态, docker compose down 停止
 
 services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      pg:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      - APP_ENV=docker
+      - DB_HOST=pg
+      - DB_PORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  worker:
+    build: ./backend
+    command: celery -A app.workers.celery_app worker --loglevel=info
+    depends_on:
+      pg:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      - APP_ENV=docker
+      - DB_HOST=pg
+      - REDIS_HOST=redis
+
+
   pg:
     image: postgres:16 # 官方PG 16轻量镜像
     environment:
