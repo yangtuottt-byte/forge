@@ -127,6 +127,9 @@ chore(prod): 生产化配置
 | **5.1 Celery+任务** | Celery 实例、AgentTask 模型、任务 API、alembic 迁移 | `feat(workers): Celery + 任务模型 + 任务 API(阶段5)` |
 | **5.2 WebSocket** | realtime/hub(Redis pub/sub 桥接)、任务 WebSocket 路由、限流感知 | `feat(realtime): WebSocket 实时进度 + 限流感知(阶段5)` |
 | **5.3 分布式锁** | 分布式锁防重复、幂等、失败标记、重试 | `feat(workers): 分布式锁 + 幂等 + 失败标记(阶段5收官)` |
+| **6 生产化** | 可观测、限流、测试、CI/CD、Docker Compose、文档 | `chore(prod): 生产化` 系列 |
+| **6.1 日志+限流** | 结构化日志(JSON)+ 限流中间件(纯 ASGI) | `feat(core): 结构化日志 + 限流中间件(阶段6)` |
+| **6.2 Docker+架构** | Dockerfile、docker-compose 多服务、架构文档、ADR | `feat(prod): Docker Compose 多服务 + 架构文档 + ADR(阶段6)` |
 | **2 Agent 核心** | Agent 基类、消息、单 Agent+Function Calling、规划、记忆 | `feat(agents): Agent 核心` 系列 |
 | **3 多 Agent 协作** | 角色定义、协调器、消息传递、LangGraph、Human-in-the-loop | `feat(agents): 多 Agent 协作` 系列 |
 | **4 工具生态+MCP** | 工具注册、MCP server、搜索/代码执行/文件工具、代码沙箱 | `feat(tools): 工具生态` 系列 |
