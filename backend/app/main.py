@@ -7,6 +7,7 @@ FastAPI 入口:app + 生命周期(lifespan)
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.middleware import RateLimitMiddleware
 from app.api.v1.router import api_router
@@ -34,4 +35,13 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.include_router(api_router, prefix="/api/v1")
+
+# 跨域:放行前端 dev(localhost:5173)直连;生产经 nginx 同源反代,通常收紧或追加来源
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.add_middleware(RateLimitMiddleware, max_requests=10)

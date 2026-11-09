@@ -42,6 +42,11 @@ class Settings(BaseSettings):
     redis_host: str = "localhost"
     redis_port: int = 6379
 
+    # ---- CORS ----
+    # 前端 dev 来源(Vite: http://localhost:5173);生产经 nginx 同源反代时可收紧
+    # 注意:allow_credentials=True 时不能设 "*"(浏览器拒通配),必须显式列表
+    cors_origins: list[str] = ["http://localhost:5173"]
+
     # ---- LLM ----
     llm_api_key: str = ""  # ⚠️ 必须填,从 .env 注入,不能写代码里
     llm_base_url: str = "https://maas-api.cn-huabei-1.xf-yun.com/v1"
