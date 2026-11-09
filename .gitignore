@@ -33,5 +33,10 @@ logs/
 workspace/
 *.tmp
 
+# ===== Node / 前端(前端目录另有 .gitignore,这里兜底根级散落物) =====
+node_modules/
+dist/
+*.tsbuildinfo
+
 # ===== Docker =====
 *.pid
