@@ -8,10 +8,13 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from app.api.middleware import RateLimitMiddleware
 from app.api.v1.router import api_router
 from app.core.config import get_settings
+from app.core.logging import setup_logging
 from app.db.session import engine
 
+setup_logging()
 settings = get_settings()
 
 
@@ -31,3 +34,4 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.include_router(api_router, prefix="/api/v1")
+app.add_middleware(RateLimitMiddleware, max_requests=10)
