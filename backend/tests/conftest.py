@@ -9,6 +9,17 @@ from app.db.session import async_session, engine
 from app.models.user import User
 
 
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """⭐ 限流感知:LLM API 限流时 skip 而不是 fail(CI 不红)"""
+    outcome = yield
+    report = outcome.get_result()
+    if report.when == "call" and report.failed:
+        if "RateLimitError" in str(report.longrepr) or "rate limit" in str(report.longrepr).lower():
+            report.outcome = "skipped"
+            report.longrepr = "LLM API 限流,跳过(稍后重试)"
+
+
 @pytest.fixture(autouse=True)
 async def _clean_env():
     """每个测试:

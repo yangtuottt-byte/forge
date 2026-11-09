@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, WebSocket
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import get_db
 from app.models.task import AgentTask
+from app.realtime.hub import connect, disconnect, subscribe_and_forward
 from app.workers.tasks import run_agent_task
 
 router = APIRouter()
@@ -32,3 +33,13 @@ async def get_task(task_id: int, session: AsyncSession = Depends(get_db)) -> dic
         "progress": task.progress,
         "result": task.result,
     }
+
+
+@router.websocket("/tasks/{task_id}/ws")
+async def task_ws(websocket: WebSocket, task_id: int):
+    """WebSocket:实时进度推送"""
+    await connect(websocket, task_id)
+    try:
+        await subscribe_and_forward(websocket, task_id)
+    finally:
+        await disconnect(task_id)
