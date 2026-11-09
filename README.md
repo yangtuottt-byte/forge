@@ -123,6 +123,10 @@ chore(prod): 生产化配置
 | **4 工具生态+MCP** | 工具注册、MCP、搜索/代码执行/文件工具、代码沙箱 | `feat(tools): 工具生态` 系列 |
 | **4.1 工具扩展** | search/run_code/read_file/write_file + 注册 | `feat(tools): 工具扩展(搜索/代码执行/文件操作)` |
 | **4.2 MCP** | MCPServer 标准工具接口 + 沙箱加固文档 | `feat(tools): MCP Server + 沙箱加固文档` |
+| **5 异步+实时** | Celery、多 worker、任务持久化、WebSocket、分布式锁 | `feat(workers): 异步实时` 系列 |
+| **5.1 Celery+任务** | Celery 实例、AgentTask 模型、任务 API、alembic 迁移 | `feat(workers): Celery + 任务模型 + 任务 API(阶段5)` |
+| **5.2 WebSocket** | realtime/hub(Redis pub/sub 桥接)、任务 WebSocket 路由、限流感知 | `feat(realtime): WebSocket 实时进度 + 限流感知(阶段5)` |
+| **5.3 分布式锁** | 分布式锁防重复、幂等、失败标记、重试 | `feat(workers): 分布式锁 + 幂等 + 失败标记(阶段5收官)` |
 | **2 Agent 核心** | Agent 基类、消息、单 Agent+Function Calling、规划、记忆 | `feat(agents): Agent 核心` 系列 |
 | **3 多 Agent 协作** | 角色定义、协调器、消息传递、LangGraph、Human-in-the-loop | `feat(agents): 多 Agent 协作` 系列 |
 | **4 工具生态+MCP** | 工具注册、MCP server、搜索/代码执行/文件工具、代码沙箱 | `feat(tools): 工具生态` 系列 |
