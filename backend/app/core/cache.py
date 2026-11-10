@@ -18,13 +18,18 @@ async def cache_delete(key: str) -> None:
     await redis_client.delete(key)
 
 
-async def acquire_lock(name: str, expire: int = 10) -> bool:
+async def acquire_lock(name: str, expire: int = 10, client=None) -> bool:
     """
     分布式锁:SET key value NX EX ttl 原子抢锁
     返回 True=抢到,False=已被别人抢走(不用先 check 再 set)
+
+    ⭐ client:可传入调用方自建的 Redis 客户端(Worker 每次任务新建,
+      避开模块级单例跨事件循环复用);不传则用 API 进程的模块级单例
     """
-    return bool(await redis_client.set(name, "locked", nx=True, ex=expire))
+    redis = client if client is not None else redis_client
+    return bool(await redis.set(name, "locked", nx=True, ex=expire))
 
 
-async def release_lock(name: str) -> None:
-    await redis_client.delete(name)
+async def release_lock(name: str, client=None) -> None:
+    redis = client if client is not None else redis_client
+    await redis.delete(name)

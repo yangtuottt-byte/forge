@@ -4,6 +4,8 @@
 services:
   api:
     build: ./backend
+    env_file:
+      - ./backend/.env.docker # 含真实 LLM key:容器执行任务必需(见该文件注释)
     ports:
       - "8000:8000"
     depends_on:
@@ -21,6 +23,8 @@ services:
   worker:
     build: ./backend
     command: celery -A app.workers.celery_app worker --loglevel=info
+    env_file:
+      - ./backend/.env.docker # 含真实 LLM key:worker 真实调 LLM 必需
     depends_on:
       pg:
         condition: service_healthy

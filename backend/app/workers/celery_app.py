@@ -21,4 +21,6 @@ celery_app.conf.update(
     result_serializer="json",
     accept_content=["json"],
     timezone="UTC",
+    # 让 worker 启动时自动导入任务模块,注册 run_agent_task
+    include=["app.workers.tasks"],
 )

@@ -40,3 +40,6 @@ dist/
 
 # ===== Docker =====
 *.pid
+
+# 容器本地 .env.docker 含真实密钥,禁提交
+.env.docker

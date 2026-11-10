@@ -24,9 +24,14 @@ async def disconnect(task_id: int) -> None:
     connections.pop(task_id, None)
 
 
-async def publish_progress(task_id: int, status: str, progress: int) -> None:
-    """Worker端:推送进度到Redis频道"""
-    await redis_client.publish(
+async def publish_progress(task_id: int, status: str, progress: int, client=None) -> None:
+    """Worker端:推送进度到Redis频道
+
+    ⭐ client:Worker 每次任务新建(每任务独立连接,绑定当前事件循环);
+    不传则用 API 进程的模块级单例
+    """
+    redis = client if client is not None else redis_client
+    await redis.publish(
         f"task:{task_id}", json.dumps({"status": status, "progress": progress})
     )
 
